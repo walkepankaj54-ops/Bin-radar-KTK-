@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#0F4D2E">
+	<meta name="description" content="Find fictional waste collection points near Wagholi, Pune, and report a full bin.">
+	<title>BinRadar | Nearby waste collection points</title>
+	<link rel="stylesheet" href="main.css">
+	<!-- Leaflet provides the interactive map; the rest of BinRadar works without it. -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+	<script defer src="script.js"></script>
+</head>
+	<body>
+	<header class="site-header" id="top">
+		<div class="top-nav">
+			<a class="brand" href="#top" aria-label="BinRadar home">
+				<span class="brand-mark" aria-hidden="true">B</span>
+				<span>BinRadar</span>
+			</a>
+			<nav class="desktop-nav" aria-label="Main navigation">
+				<a class="nav-link is-active" href="#top" aria-current="page">Home</a>
+				<a class="nav-link" href="#map-section">Find bins</a>
+				<a class="nav-link" href="#bin-section">Report</a>
+				<a class="nav-link" href="#about-section">About</a>
+			</nav>
+			<button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+			</button>
+			<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+				<a class="nav-link is-active" href="#top" aria-current="page">Home</a>
+				<a class="nav-link" href="#map-section">Find bins</a>
+				<a class="nav-link" href="#bin-section">Report</a>
+				<a class="nav-link" href="#about-section">About</a>
+			</nav>
+		</div>
+	</header>
+
+	<main class="app-layout" id="app-main">
+		<div class="left-panel">
+			<section class="permission-strip" id="permission-strip" aria-label="Location permission">
+				<svg class="permission-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.3"></circle></svg>
+				<p id="permission-text">Allow location access to see the bins closest to you.</p>
+				<button class="permission-button" id="allow-permission" type="button">Allow permission</button>
+			</section>
+
+			<section class="headline-block" aria-labelledby="finder-title">
+				<h1 id="finder-title">Find the nearest bin place</h1>
+				<p class="headline-tagline">Clean city, clean environment</p>
+				<button class="primary-button" id="find-nearby" type="button">
+					<span class="location-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="6.5"></circle><path d="M12 2v3m0 14v3M2 12h3m14 0h3"></path></svg></span>
+					Find nearby bins
+				</button>
+				<p class="live-message" id="status-message" role="status" aria-live="polite">Ready when you are. Find bins near your location.</p>
+				<div class="fallback-control" id="fallback-control" hidden>
+					<label for="area-select">Pick the area you are near</label>
+					<select id="area-select"><option value="">Choose a nearby area</option></select>
+				</div>
+			</section>
+
+			<section class="map-card" id="map-section" aria-label="Live map and marker legend">
+				<span class="live-map-pill"><span aria-hidden="true"></span>Live map</span>
+				<div id="map" class="map" role="region" aria-label="Map showing waste collection points near Wagholi, Pune">
+					<p class="map-fallback" id="map-fallback">Map tiles need an internet connection. Your bin list is still available below.</p>
+				</div>
+				<ul class="legend" aria-label="Map marker legend">
+					<li><span class="legend-dot dot-ok" aria-hidden="true"></span>OK</li>
+					<li><span class="legend-dot dot-full" aria-hidden="true"></span>Full</li>
+					<li><span class="legend-dot dot-user" aria-hidden="true"></span>You</li>
+				</ul>
+			</section>
+		</div>
+
+		<div class="right-panel">
+			<section class="bins-section" id="bin-section" aria-labelledby="bins-title">
+				<div class="section-heading bins-heading">
+					<div><h2 id="bins-title">Nearby bins</h2><p class="summary-line" id="summary-line">10 sample spots, 0 full</p></div>
+					<span class="result-count" id="result-count">10 sample spots</span>
+				</div>
+				<div class="filter-row" role="group" aria-label="Filter collection points">
+					<button class="filter-button is-selected" id="filter-all" type="button" aria-pressed="true">All bins</button>
+					<button class="filter-button" id="filter-full" type="button" aria-pressed="false">Full bins only</button>
+				</div>
+				<div class="bin-list" id="bin-list" aria-live="polite"></div>
+				<p class="empty-state" id="empty-state" hidden>No full bins right now.</p>
+			</section>
+
+			<footer class="app-footer" id="about-section">
+				<p>Sample data. Alerts are sent by you through WhatsApp, not automatically.</p>
+				<button class="reset-button" id="reset-all" type="button">Reset all (demo)</button>
+				<span class="track-label">Environment and Sustainability</span>
+			</footer>
+		</div>
+	</main>
+</body>
+</html>

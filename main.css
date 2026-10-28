@@ -1,0 +1,116 @@
+:root {
+	color-scheme: light;
+	--page: #F6F8F4;
+	--surface: #FFFFFF;
+	--ink: #25332A;
+	--muted: #5D6A61;
+	--line: #DCE3DC;
+	--green: #1F7A45;
+	--green-dark: #185F35;
+	--green-soft: #E8F3EB;
+	--red: #B33E38;
+	--red-soft: #FBECEA;
+	--blue: #2874B8;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+}
+
+/* A centered, narrow shell keeps the full page within phone screens. */
+* { box-sizing: border-box; }
+html { min-width: 280px; min-height: 100%; background: var(--page); }
+body { min-width: 280px; min-height: 100vh; margin: 0; color: var(--ink); background: var(--page); font-size: 14px; }
+button, select { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid #A35A00; outline-offset: 3px; }
+.app-shell { width: min(100%, 480px); min-height: 100vh; margin: 0 auto; padding: 18px 16px 28px; }
+
+/* The header keeps the brand and its single tagline, without a divider. */
+.app-header { padding: 0; }
+.brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; font-size: 19px; font-weight: 700; }
+.brand-mark { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 9px; color: #fff; background: var(--green); font-size: 15px; }
+.tagline { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+/* The finder prioritizes the location action and short feedback. */
+h1, h2, p { margin-top: 0; }
+.finder { padding: 23px 0 20px; }
+.finder h1 { margin-bottom: 5px; font-size: 22px; font-weight: 700; line-height: 1.2; }
+.intro { margin-bottom: 15px; color: var(--muted); font-size: 14px; }
+.primary-button { display: flex; width: 100%; min-height: 48px; align-items: center; justify-content: center; gap: 9px; border: 0; border-radius: 12px; color: #fff; background: var(--green); font-size: 15px; font-weight: 700; }
+.primary-button:hover { background: var(--green-dark); }
+.primary-button:disabled { cursor: wait; opacity: .78; }
+.location-icon { display: inline-flex; width: 19px; height: 19px; align-items: center; justify-content: center; }
+.location-icon svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.8; }
+.live-message { min-height: 18px; margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.live-message[data-kind="error"] { color: #8D302B; }
+.live-message[data-kind="success"] { color: var(--green-dark); }
+.fallback-control { margin-top: 12px; }
+.fallback-control[hidden] { display: none; }
+.fallback-control label { display: block; margin-bottom: 7px; font-size: 13px; font-weight: 700; }
+.fallback-control select { width: 100%; min-height: 46px; padding: 0 12px; border: 1px solid #AEB9AF; border-radius: 9px; color: var(--ink); background: var(--surface); }
+
+/* The map and its compact legend share one clean visual group. */
+.map-section { padding-top: 0; }
+.map { position: relative; height: 240px; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: #E9EEE7; }
+.map-fallback { position: absolute; z-index: 500; top: 50%; left: 50%; width: min(82%, 280px); margin: 0; padding: 11px 13px; transform: translate(-50%, -50%); border: 1px solid var(--line); border-radius: 10px; color: var(--muted); background: rgba(255,255,255,.96); text-align: center; font-size: 13px; }
+.map.leaflet-has-tiles .map-fallback { display: none; }
+.legend { display: flex; flex-wrap: wrap; gap: 18px; margin: 10px 0 21px; padding: 0; list-style: none; color: var(--ink); font-size: 13px; }
+.legend li { display: inline-flex; align-items: center; gap: 7px; }
+.legend-dot { width: 12px; height: 12px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgba(37,51,42,.35); }
+.dot-ok { background: var(--green); }
+.dot-full { background: var(--red); }
+.dot-user { background: var(--blue); }
+
+/* Bin cards keep location details and status easy to scan. */
+.section-heading { display: flex; min-height: 24px; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.section-heading h2 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.25; }
+.result-count { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.bins-section { padding-top: 0; }
+.bins-heading { margin-bottom: 10px; }
+.bin-list { display: grid; gap: 10px; }
+.bin-card { min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.bin-card.is-full { border-color: #D98F89; }
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.spot-name { min-width: 0; padding: 0; border: 0; color: var(--ink); background: none; text-align: left; font-size: 15px; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
+.spot-name:hover { color: var(--green-dark); text-decoration: underline; text-underline-offset: 3px; }
+.status-pill { flex: 0 0 auto; padding: 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.2; }
+.status-pill.is-ok { color: #185F35; background: var(--green-soft); }
+.status-pill.is-full { color: #8D302B; background: var(--red-soft); }
+.spot-area { margin: 5px 0 12px; color: var(--muted); font-size: 13px; }
+.card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.distance { min-width: 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.report-button { min-width: 116px; min-height: 44px; padding: 0 12px; border: 1px solid var(--green); border-radius: 9px; color: var(--green-dark); background: #fff; font-size: 13px; font-weight: 700; }
+.report-button:hover:not(:disabled) { background: var(--green-soft); }
+.report-button:disabled { cursor: default; border-color: #D98F89; color: #8D302B; background: var(--red-soft); }
+
+/* Footer actions remain separated from the list without a heavy panel. */
+.app-footer { margin-top: 23px; padding-top: 16px; border-top: 1px solid var(--line); }
+.reset-button { min-height: 44px; padding: 0 13px; border: 1px solid #AEB9AF; border-radius: 9px; color: var(--ink); background: transparent; font-size: 13px; font-weight: 700; }
+.reset-button:hover { background: #EDF1EB; }
+.app-footer p { margin: 12px 0 7px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.track-label { color: var(--green-dark); font-size: 12px; font-weight: 700; }
+
+/* Leaflet markers use HTML dots; the user marker is blue and larger. */
+.bin-marker { display: block; width: 14px; height: 14px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.bin-marker.marker-ok { background: var(--green); }
+.bin-marker.marker-full { background: var(--red); }
+.bin-marker.marker-user { width: 20px; height: 20px; background: var(--blue); }
+.leaflet-popup-content { margin: 10px 12px; line-height: 1.45; }
+.popup-title { display: block; margin-bottom: 2px; font-weight: 700; }
+
+@media (max-width: 360px) {
+	.card-bottom { align-items: flex-start; }
+	.report-button { min-width: 108px; padding-inline: 8px; }
+	.legend { gap: 14px; }
+}
+
+/* Keep phone scrolling available without a distracting scrollbar track. */
+@media (max-width: 420px) {
+	html { scrollbar-width: none; }
+	html::-webkit-scrollbar { display: none; }
+}
+
+/* Respect visitors who ask their device to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

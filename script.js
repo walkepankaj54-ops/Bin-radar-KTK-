@@ -287,7 +287,8 @@ function renderCards() {
 		reportButton.disabled = isFull;
 		reportButton.setAttribute("aria-label", isFull ? `${spot.name} reported` : `Report ${spot.name} as full`);
 		if (!isFull) reportButton.addEventListener("click", () => toggleReportPanel(spot, row));
-		actions.append(pill, navigateButton, reportButton);
+		if (isFull) actions.append(pill);
+		actions.append(navigateButton, reportButton);
 
 		row.append(iconTile, details, actions);
 		binList.append(row);
@@ -1034,7 +1035,7 @@ document.querySelectorAll(".nav-link").forEach((link) => link.addEventListener("
 	const href = link.getAttribute("href");
 	setActiveNav(href);
 	setFocusedView(href === "#area-section" ? "area" : href === "#user-section" ? "user" : null);
-	setMenuOpen(false);
+	if (mobileNav.contains(link)) setMenuOpen(false);
 }));
 areaBackButton.addEventListener("click", () => {
 	setActiveNav("#bin-section");

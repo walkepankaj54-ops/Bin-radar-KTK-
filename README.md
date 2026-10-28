@@ -94,3 +94,33 @@ The app also works by opening `index.html` directly, but browser geolocation may
 ## Originality declaration
 
 This project was built with AI assistance. I have reviewed and understood the implementation and can explain its behavior and limitations.
+
+## Student SQLite CLI Project
+
+This folder also contains a small Python command-line database project. It uses only Python's built-in `sqlite3` module and stores student records in `app.db` beside the Python files.
+
+### Files
+
+- `database.py` creates the `students` table and contains the add, view, search, update, and delete functions.
+- `main.py` provides the numbered command-line menu.
+- `app.db` is created automatically the first time the menu runs.
+
+The table has an auto-incrementing `id`, required `name`, unique `email`, optional `course`, and a `created_at` timestamp that defaults to the current time. SQL commands use parameter placeholders for entered values.
+
+### Run the database menu
+
+1. Open a terminal in this folder.
+2. Run `python main.py` (on Windows, `py main.py` also works if the Python launcher is installed).
+3. Choose a menu number from 1 to 6 and follow the prompts.
+
+No package installation or database server is needed. The `app.db` file is local to this folder. To start over, close the program and remove `app.db` yourself; the next run creates an empty database. This deletion removes all student records.
+
+### Database test checklist
+
+- [ ] Add a student and view the new row and creation timestamp.
+- [ ] Add a second student and search for part of a name.
+- [ ] Try an email that already exists and confirm a friendly duplicate message.
+- [ ] Update an existing ID and try an ID that does not exist.
+- [ ] Delete an existing ID and try an ID that does not exist.
+- [ ] Enter invalid text for an ID and confirm the menu handles it without closing.
+- [ ] Choose Exit to close the menu.

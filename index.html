@@ -15,27 +15,32 @@
 	<body>
 	<header class="site-header" id="top">
 		<div class="top-nav">
+			<button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+			</button>
 			<a class="brand" href="#top" aria-label="BinRadar home">
 				<span class="brand-mark" aria-hidden="true">B</span>
 				<span>BinRadar</span>
 			</a>
-			<nav class="desktop-nav" aria-label="Main navigation">
-				<a class="nav-link is-active" href="#top" aria-current="page">Home</a>
-				<a class="nav-link" href="#map-section">Find bins</a>
-				<a class="nav-link" href="#bin-section">Report</a>
-				<a class="nav-link" href="#about-section">About</a>
-			</nav>
-			<button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
-				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
-			</button>
-			<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
-				<a class="nav-link is-active" href="#top" aria-current="page">Home</a>
-				<a class="nav-link" href="#map-section">Find bins</a>
-				<a class="nav-link" href="#bin-section">Report</a>
-				<a class="nav-link" href="#about-section">About</a>
+			<nav class="mobile-nav sidebar-drawer" id="mobile-nav" aria-label="Main navigation" aria-hidden="true" inert>
+				<div class="drawer-brand">
+					<span class="brand-mark" aria-hidden="true">B</span>
+					<span>BinRadar</span>
+				</div>
+				<div class="drawer-links">
+					<a class="nav-link is-active" href="#top" aria-current="page">Home</a>
+					<a class="nav-link" href="#area-section">Area Stars</a>
+					<a class="nav-link" href="#bin-section">Report</a>
+					<a class="nav-link user-nav-link" href="#user-section">User</a>
+				</div>
+				<div class="drawer-account" id="drawer-account">
+					<span class="drawer-avatar" id="drawer-avatar" aria-hidden="true">?</span>
+					<div><strong id="drawer-name">Guest user</strong><small id="drawer-stars">Sign in to earn stars</small></div>
+				</div>
 			</nav>
 		</div>
 	</header>
+	<button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="Dismiss navigation drawer" tabindex="-1" hidden></button>
 
 	<main class="app-layout" id="app-main">
 		<div class="left-panel">
@@ -64,6 +69,39 @@
 				<div id="map" class="map" role="region" aria-label="Map showing waste collection points near Wagholi, Pune">
 					<p class="map-fallback" id="map-fallback">Map tiles need an internet connection. Your bin list is still available below.</p>
 				</div>
+				<p class="map-hint">Tap the map to suggest a collection point.</p>
+				<form class="suggest-form" id="suggest-form" hidden>
+					<div class="suggest-heading">
+						<div><h2>Suggest a bin</h2><p id="suggest-coordinates">Selected map location</p></div>
+						<button class="route-close" id="suggest-cancel" type="button" aria-label="Cancel bin suggestion">×</button>
+					</div>
+					<label for="suggest-name">Bin name</label>
+					<input id="suggest-name" name="name" type="text" maxlength="60" required placeholder="For example, Community collection point">
+					<label for="suggest-area">Area or landmark</label>
+					<input id="suggest-area" name="area" type="text" maxlength="60" required placeholder="For example, Wagholi Main Road">
+					<p class="local-only-note">Saved on this device only. It will not be shared with other users.</p>
+					<button class="suggest-submit" type="submit">Save suggested bin</button>
+				</form>
+				<section class="route-panel" id="route-panel" aria-labelledby="route-title" aria-live="polite" hidden>
+					<div class="route-header">
+						<div>
+							<p class="route-eyebrow" id="route-state">Nearest collection point</p>
+							<h2 id="route-title">Route to your bin</h2>
+							<p class="route-destination" id="route-destination"></p>
+						</div>
+						<button class="route-close" id="route-close" type="button" aria-label="Close route guidance">×</button>
+					</div>
+					<div class="route-facts">
+						<span><strong id="route-distance">--</strong><small>distance</small></span>
+						<span><strong id="route-eta">--</strong><small>walk estimate</small></span>
+					</div>
+					<p class="route-instruction" id="route-instruction">Preparing a route to the nearest bin...</p>
+					<div class="route-actions">
+						<button class="track-button" id="track-start" type="button">Start live tracking</button>
+						<button class="track-button track-stop" id="track-stop" type="button" hidden>Stop tracking</button>
+						<a class="external-directions" id="external-directions" href="#" target="_blank" rel="noopener noreferrer">Open in Maps</a>
+					</div>
+				</section>
 				<ul class="legend" aria-label="Map marker legend">
 					<li><span class="legend-dot dot-ok" aria-hidden="true"></span>OK</li>
 					<li><span class="legend-dot dot-full" aria-hidden="true"></span>Full</li>
@@ -86,9 +124,59 @@
 				<p class="empty-state" id="empty-state" hidden>No full bins right now.</p>
 			</section>
 
+			<section class="community-section" id="area-section" aria-labelledby="area-title">
+				<div class="area-view-header">
+					<button class="area-back-button" id="area-back" type="button">Back to bins</button>
+					<span class="area-location-label">Wagholi, Pune</span>
+				</div>
+				<div class="area-hero">
+					<p class="area-eyebrow">COMMUNITY IMPACT</p>
+					<h2 id="area-title" tabindex="-1">Area Stars</h2>
+					<p>Each GPS-confirmed trip to a collection point earns one star. Small trips add up to a cleaner neighborhood.</p>
+				</div>
+				<div class="area-stats" aria-label="Area leaderboard summary">
+					<div><strong id="area-total-visits">0</strong><span>GPS-confirmed visits</span></div>
+					<div><strong id="area-member-count">0</strong><span>local members</span></div>
+					<div><strong id="area-leader-name">Be first</strong><span>current leader</span></div>
+				</div>
+				<section class="area-personal" aria-label="Your area contribution">
+					<div class="area-personal-mark" aria-hidden="true">★</div>
+					<div><p class="area-personal-label">YOUR CONTRIBUTION</p><h3 id="area-user-name">Guest member</h3><p id="area-user-visits">Sign in and visit a collection point to earn stars.</p></div>
+					<a class="area-signin-link" id="area-signin-link" href="#user-section">Sign in</a>
+				</section>
+				<div class="area-ranking-heading"><div><h3>Wagholi neighborhood ranking</h3><p>Sorted by GPS-confirmed collection-point visits</p></div><span class="ranking-period">ALL TIME</span></div>
+				<ol class="leaderboard" id="leaderboard" aria-live="polite"></ol>
+				<p class="local-data-note area-local-note">GPS confirms arrival near a point, not that waste was deposited. Demo profiles and rankings stay in this browser and are not shared.</p>
+			</section>
+
+			<section class="community-section user-section" id="user-section" aria-labelledby="user-title">
+				<div class="area-view-header">
+					<button class="area-back-button" id="user-back" type="button">Back to bins</button>
+					<span class="area-location-label">BinRadar account</span>
+				</div>
+				<div class="section-heading">
+					<div><h2 id="user-title" tabindex="-1">Your BinRadar profile</h2><p class="summary-line">Your login and visit details</p></div>
+				</div>
+				<form class="login-form" id="login-form">
+					<label for="login-name">Your name</label>
+					<input id="login-name" name="name" type="text" autocomplete="name" maxlength="40" required placeholder="Name shown on the leaderboard">
+					<label for="login-email">Email</label>
+					<input id="login-email" name="email" type="email" autocomplete="email" maxlength="100" required placeholder="you@example.com">
+					<p class="local-data-note">Demo sign-in only. No password is collected; this profile is stored in this browser and is not secure or shared.</p>
+					<button class="profile-button" type="submit">Continue on this device</button>
+				</form>
+				<div class="profile-view" id="profile-view" hidden>
+					<div class="profile-summary">
+						<div class="profile-avatar" id="profile-avatar" aria-hidden="true">?</div>
+						<div><h3 id="profile-name">Name</h3><p id="profile-email">email</p></div>
+						<div class="profile-stars"><strong id="profile-stars">0</strong><span>stars</span></div>
+					</div>
+					<p class="profile-activity" id="profile-activity">Visit a collection point to earn your first star.</p>
+					<button class="profile-button profile-logout" id="logout-button" type="button">Sign out</button>
+				</div>
+			</section>
+
 			<footer class="app-footer" id="about-section">
-				<p>Sample data. Alerts are sent by you through WhatsApp, not automatically.</p>
-				<button class="reset-button" id="reset-all" type="button">Reset all (demo)</button>
 				<span class="track-label">Environment and Sustainability</span>
 			</footer>
 		</div>
